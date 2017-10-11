@@ -3,8 +3,8 @@ This project demonstrates NESTED LOOPS (i.e., loops within loops)
 in the context of TWO-DIMENSIONAL GRAPHICS.
 
 Authors: David Mutchler, Valerie Galluzzi, Mark Hays, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+         their colleagues and Mason Hancock.
+"""  # Done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
 
@@ -80,9 +80,43 @@ def draw_L(window, circle, r, c):
     and m and n are small, positive integers.
     """
     # ------------------------------------------------------------------
-    # TODO: 2. Implement and test this function.
+    # Done: 2. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
+
+    #column part of L
+    x1 = circle.center.x
+    y1 = circle.center.y
+    radius = circle.radius
+    color = circle.fill_color
+    center_moved = rg.Point(x1, y1)
+
+    # +3 accounts for the 3x3 corner of the L
+    for k in range(r+3):
+        y = y1 + 2 * radius * k
+        for j in range(3):
+            x = x1 + 2 * radius * j
+            center_moved.x = x
+            center_moved.y = y
+            circle_moved = rg.Circle(center_moved, radius)
+            circle_moved.fill_color = color
+            circle_moved.attach_to(window)
+            window.render(0.1)
+
+    x2 = x + 2*radius
+    y2 = y
+    c_center = rg.Point(x2, y2)
+    # row part of L
+    for h in range(3):
+        y = y2 - 2*radius*h
+        for g in range(c):
+            x = x2 + 2*radius*g
+            c_center.x = x
+            c_center.y = y
+            c_circle = rg.Circle(c_center, radius)
+            c_circle.fill_color = color
+            c_circle.attach_to(window)
+            window.render(0.1)
 
 
 def run_test_draw_wall_on_right():
@@ -121,9 +155,27 @@ def draw_wall_on_right(rectangle, n, window):
     and n is a small, positive integer.
     """
     # ------------------------------------------------------------------
-    # TODO: 3. Implement and test this function.
+    # Done: 3. Implement and test this function.
     #     The testing code is already written for you (above).
     # ------------------------------------------------------------------
+    center = rectangle.get_center()
+    x = center.x
+    y = center.y
+    h = rectangle.get_height()
+    w = rectangle.get_width()
+    new_center = rg.Point(x, y)
+
+    for k in range(n):
+        new_center.x = x - k*w
+        y_loop = y + k*h
+        for j in range(n-k):
+            new_center.y = y_loop + j*h
+            corn1 = rg.Point(new_center.x + w/2, new_center.y - h/2)
+            corn2 = rg.Point(new_center.x - w / 2, new_center.y + h / 2)
+            new_rect = rg.Rectangle(corn1, corn2)
+            new_rect.attach_to(window)
+            window.render(0.1)
+
 
 
 # ----------------------------------------------------------------------
